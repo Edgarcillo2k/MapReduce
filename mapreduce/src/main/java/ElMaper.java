@@ -15,8 +15,8 @@ public class ElMaper extends Mapper<LongWritable, Text, Text, FloatWritable> {
     	String paths = fields[0]; // ["10","09","2010"]
     	
     	FloatWritable monto = new FloatWritable(Float.parseFloat(fields[1]));
-    	Text ruta = new Text(path);
-    	
+    	Text ruta = new Text(paths);
+		System.out.println(paths);
     	context.write(ruta, monto);
     	
     }

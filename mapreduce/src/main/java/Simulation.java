@@ -10,7 +10,7 @@ public class Simulation {
      * @param args
      * @throws SQLException
      */
-    public void simulador throws SQLException {
+    static {
         try {
             Class.forName(driverName);
         } catch (ClassNotFoundException e) {
@@ -19,11 +19,29 @@ public class Simulation {
             System.exit(1);
         }
         //replace "hive" here with the name of the user the queries should run as
-        Connection con = DriverManager.getConnection("jdbc:hive2://25.83.236.39:10000/ViajesDomesticosCR", "", "");
-        Statement stmt = con.createStatement();
-        stmt.execute("CREATE DATABASES ViajesDomesticosCR;");
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection("jdbc:hive2://25.83.236.39:10000/ViajesDomesticosCR", "", "");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        Statement stmt = null;
+        try {
+            stmt = con.createStatement();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        try {
+            stmt.execute("CREATE DATABASES ViajesDomesticosCR;");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         System.out.println("Database userdb created successfully.");
-        con.close();
+        try {
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
 
         // show tables
