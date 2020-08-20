@@ -4,13 +4,13 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.DriverManager;
 
-public class HiveJdbcClient {
+public class Simulation {
     private static String driverName = "org.apache.hive.jdbc.HiveDriver";
     /**
      * @param args
      * @throws SQLException
      */
-    public static void main(String[] args) throws SQLException {
+    public void simulador throws SQLException {
         try {
             Class.forName(driverName);
         } catch (ClassNotFoundException e) {
