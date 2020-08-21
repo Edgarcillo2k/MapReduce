@@ -11,13 +11,24 @@ public class ElMaper extends Mapper<LongWritable, Text, Text, FloatWritable> {
     public void map(LongWritable offset, Text lineText, Context context)
         throws IOException, InterruptedException {
     	
-    	String fields[] = lineText.toString().split(","); // ["10/09/2010","4394396.21"]
-    	String paths = fields[0]; // ["10","09","2010"]
-    	
-    	FloatWritable monto = new FloatWritable(Float.parseFloat(fields[1]));
-    	Text ruta = new Text(paths);
-		System.out.println(paths);
-    	context.write(ruta, monto);
-    	
+    	String fields[] = lineText.toString().split(","); // ["transactionid","fechaCompra","userId","monto","origen","destino"]
+
+		String paths = fields[4].concat(fields[5]); // origen + destino
+		FloatWritable monto = new FloatWritable(Float.parseFloat(fields[3]));
+		Text ruta = new Text(paths);
+		context.write(ruta, monto);
+
+		//String dateparts = fields[1].split("/"); // año
+		//IntWritable year = new IntWritable(Integer.parseInt(dateparts[2]));
+		//FloatWritable monto = new FloatWritable(Float.parseFloat(fields[3]));
+		//context.write(year, monto);
+
+		//String dateparts = fields[1].split("/");
+		//String dateofMonth = dateparts[0].concat(dateparts[1]); // dia + mes
+		//Text key = new Text(dateofMonth);
+		//FloatWritable value = new FloatWritable(Float.parseFloat(fields[3])); //monto
+		//context.write(key, value);
+
+		//System.out.println(paths);
     }
 }
