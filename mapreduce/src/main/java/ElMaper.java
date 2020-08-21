@@ -1,5 +1,4 @@
 import java.io.IOException;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.LongWritable;
@@ -13,22 +12,18 @@ public class ElMaper extends Mapper<LongWritable, Text, Text, FloatWritable> {
     	
     	String fields[] = lineText.toString().split(","); // ["transactionid","fechaCompra","userId","monto","origen","destino"]
 
-		String paths = fields[4].concat(fields[5]); // origen + destino
-		FloatWritable monto = new FloatWritable(Float.parseFloat(fields[3]));
-		Text ruta = new Text(paths);
-		context.write(ruta, monto);
+		String paths = fields[4].concat("/").concat(fields[5]); // origen + destino
+		Text key = new Text(paths);
 
-		//String dateparts = fields[1].split("/"); // año
-		//IntWritable year = new IntWritable(Integer.parseInt(dateparts[2]));
-		//FloatWritable monto = new FloatWritable(Float.parseFloat(fields[3]));
-		//context.write(year, monto);
+		//String dateparts = fields[1].split("/"); // fecha
+		//String datePath = dateparts[1].concat("/").concat(dateparts[2]).concat("/").concat(paths); // año + mes + ruta
+		//Text key = new Text(datePath);
 
-		//String dateparts = fields[1].split("/");
-		//String dateofMonth = dateparts[0].concat(dateparts[1]); // dia + mes
-		//Text key = new Text(dateofMonth);
-		//FloatWritable value = new FloatWritable(Float.parseFloat(fields[3])); //monto
-		//context.write(key, value);
+		//String datePath = fields[1].concat(fields[4]).concat(fields[5]); // fecha + ruta
+		//Text key = new Text(datePath);
 
-		//System.out.println(paths);
+		FloatWritable values = new FloatWritable(Float.parseFloat(fields[3])); // monto
+
+		context.write(key, values);
     }
 }
