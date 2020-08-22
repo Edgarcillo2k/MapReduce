@@ -13,16 +13,18 @@ public class ElMaper extends Mapper<LongWritable, Text, Text, FloatWritable> {
     	String fields[] = lineText.toString().split(","); // ["transactionid","fechaCompra","userId","monto","origen","destino"]
 
 		String paths = fields[4].concat("/").concat(fields[5]); // origen + destino
-		Text key = new Text(paths);
+		String[] dateparts = fields[1].split("/"); // fecha
 
-		//String dateparts = fields[1].split("/"); // fecha
-		//String datePath = dateparts[1].concat("/").concat(dateparts[2]).concat("/").concat(paths); // año + mes + ruta
-		//Text key = new Text(datePath);
+		//-----Tablas Monto
+		String datePath = dateparts[1].concat("/").concat(dateparts[2]).concat("/").concat(paths); // año + mes + ruta
+		//String datePath = fields[1].concat(paths); // fecha + ruta
 
-		//String datePath = fields[1].concat(fields[4]).concat(fields[5]); // fecha + ruta
-		//Text key = new Text(datePath);
-
+		Text key = new Text(datePath);
 		FloatWritable values = new FloatWritable(Float.parseFloat(fields[3])); // monto
+
+		//-------------------------------------------------------------------
+		//-----Tablas Pasajero
+		//Text values = new Text(fields[1])); // pasajero
 
 		context.write(key, values);
     }

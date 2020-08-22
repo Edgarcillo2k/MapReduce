@@ -24,9 +24,13 @@ public class StartJobMain extends Configured implements Tool {
 	    // Use TextInputFormat, the default unless job.setInputFormatClass is used
 	    FileInputFormat.addInputPath(job, new Path(args[0]));
 
-	    FileOutputFormat.setOutputPath(job, new Path("/user/hive/warehouse/viajesdomesticoscr.db/rutamonto"));
-		// FileOutputFormat.setOutputPath(job, new Path("/user/hive/warehouse/viajesdomesticoscr.db/yearmonto"));
-		// FileOutputFormat.setOutputPath(job, new Path("/user/hive/warehouse/viajesdomesticoscr.db/dayofmonthmonto"));
+	    //--Tablas Monto
+	    FileOutputFormat.setOutputPath(job, new Path("/user/hive/warehouse/viajesdomesticoscr.db/dayMonthValue"));
+		// FileOutputFormat.setOutputPath(job, new Path("/user/hive/warehouse/viajesdomesticoscr.db/dateValue"));
+
+		//--Tablas Pasajero
+		//FileOutputFormat.setOutputPath(job, new Path("/user/hive/warehouse/viajesdomesticoscr.db/dayMonthPass"));
+		// FileOutputFormat.setOutputPath(job, new Path("/user/hive/warehouse/viajesdomesticoscr.db/datePass"));
 
 	    job.setMapperClass(ElMaper.class);
 	    job.setReducerClass(ElReducer.class);
