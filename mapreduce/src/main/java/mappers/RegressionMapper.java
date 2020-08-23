@@ -11,28 +11,10 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 public class RegressionMapper extends Mapper<LongWritable, Text, Text, RegressionVariablesWrapper> {
 
-    private String[] keyConcatIndexes;
-    private Integer xVariableIndex;
-    private Integer yVariableIndex;
-
-    @Override
-    protected void setup(Context context) throws IOException, InterruptedException {
-        Configuration conf = context.getConfiguration();
-        keyConcatIndexes = conf.getStrings("regression.key.concat.indexes",null);
-        xVariableIndex = conf.getInt("regression.x.variable.index",0);
-        yVariableIndex = conf.getInt("regression.x.variable.index",0);
-        super.setup(context);
-    }
-
     public void map(LongWritable offset, Text lineText, Context context) throws IOException, InterruptedException {
-        String fields[] = lineText.toString().split(","); // ["mes","dia","origen","destino","monto"]
-        StringBuilder concatKey = new StringBuilder();
-        for(String index:keyConcatIndexes){
-            concatKey = concatKey.append(fields[Integer.parseInt(index)]).append(",");
-        }
-        concatKey.deleteCharAt(concatKey.length()-1);
-        Text key = new Text(concatKey.toString());
-        RegressionVariablesWrapper values = new RegressionVariablesWrapper(Double.parseDouble(fields[xVariableIndex]),Double.parseDouble(fields[yVariableIndex]));
+        String fields[] = lineText.toString().split("\t"); //origen + destino + dia/anio + mes + monto
+        Text key = new Text(fields[0].concat("\t").concat(fields[1]).concat("\t").concat(fields[3]));
+        RegressionVariablesWrapper values = new RegressionVariablesWrapper(Double.parseDouble(fields[2]),Double.parseDouble(fields[4]));
         context.write(key, values);
     }
 }
