@@ -56,7 +56,22 @@ public class StartJobMain extends Configured implements Tool {
 		args[4] = "reducers.ElReducer4";
 		args[5] = "models.RegressionVariablesWrapper";
 		res = ToolRunner.run(new StartJobMain(), args);
-
+		args = new String[6];											//LISTO
+		args[0] = "Suma pasajeros por dia por anio";
+		args[1] = "/user/hive/warehouse/viajesdomesticoscr.db/reservaciones";
+		args[2] = "/user/hive/warehouse/viajesdomesticoscr.db/sumaPasajerosDiaMesAnio";
+		args[3] = "mappers.ElMaper";
+		args[4] = "reducers.ElReducer2";
+		args[5] = "org.apache.hadoop.io.FloatWritable";
+		res = ToolRunner.run(new StartJobMain(), args);
+		args = new String[6];											//LISTO
+		args[0] = "Suma pasajeros por dia por anio";
+		args[1] = "/user/hive/warehouse/viajesdomesticoscr.db/sumaPasajerosDiaMesAnio";
+		args[2] = "/user/hive/warehouse/viajesdomesticoscr.db/incPasajerosDiaMesAnio";
+		args[3] = "mappers.ElMaper3";
+		args[4] = "reducers.ElReducer3";
+		args[5] = "org.apache.hadoop.io.FloatWritable";
+		res = ToolRunner.run(new StartJobMain(), args);
 		System.exit(0);
 	}
 

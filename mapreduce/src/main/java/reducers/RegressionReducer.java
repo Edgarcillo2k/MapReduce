@@ -10,8 +10,7 @@ public class RegressionReducer extends Reducer<Text, RegressionVariablesWrapper,
     @Override
     public void reduce(Text key, Iterable<RegressionVariablesWrapper> values, Context context) throws IOException, InterruptedException {
         Double end = 0.0;
-        Double init = 0.0;
-
+        Double init;
         double sumY = 0;
         double sumX = 0;
         double sumXY = 0;
@@ -20,7 +19,6 @@ public class RegressionReducer extends Reducer<Text, RegressionVariablesWrapper,
         double sumX3 = 0;
         double sumX4 = 0;
         double n = 0;
-
         for(RegressionVariablesWrapper value : values) {
             init = value.getY();
             if(n > 0){
@@ -36,27 +34,17 @@ public class RegressionReducer extends Reducer<Text, RegressionVariablesWrapper,
             end = value.getX();
             n++;
         }
-
         n--;
-
-
-
-        /*Double b = ( (sumXY - ((sumX*sumY)/n))*(sumX4 - ((sumX2*sumX2)/n)) - (sumX2Y - ((sumX2*sumY)/n)) * (sumX3 - ((sumX2*sumX)/n)) ) /
+        Double b = ( (sumXY - ((sumX*sumY)/n))*(sumX4 - ((sumX2*sumX2)/n)) - (sumX2Y - ((sumX2*sumY)/n)) * (sumX3 - ((sumX2*sumX)/n)) ) /
                 ( (sumX2 - ((sumX*sumX)/n)) * (sumX4 - ((sumX2*sumX2)/n)) - Math.pow((sumX3 - ((sumX2*sumX)/n)),2));
         Double c = (  (sumX2 - ((sumX*sumX)/n)) * (sumX2Y - ((sumX2*sumY)/n)) - (sumX3 - ((sumX2*sumX)/n)) * (sumXY - ((sumX*sumY)/n)) )  /
                 ( (sumX2 - ((sumX*sumX)/n)) * (sumX4 - ((sumX2*sumX2)/n)) - Math.pow((sumX3 - ((sumX2*sumX)/n)),2) );
-
-        Double a = (sumY - b * sumX - c * sumX2) / n;*/
-
-        Double b = (n * sumXY - (sumY*sumX))/(n*sumX2-(sumX*sumX));
-
-        Double a = (sumY - (b * sumX))/n;
-
+        Double a = (sumY - b * sumX - c * sumX2) / n;
         String bString = b.toString();//y = a + bx + cx^2
-        //String cString = c.toString();
+        String cString = c.toString();
         String aString = a.toString();
 
-        context.write(key, new Text( aString.concat("\t").concat(bString)));
-        //context.write(key, new Text( aString.concat("\t").concat(bString).concat("\t").concat(cString)));
+        context.write(key, new Text( aString.concat("\t").concat(bString).concat("\t").concat(cString)));
+
     }
 }

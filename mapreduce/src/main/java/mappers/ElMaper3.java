@@ -17,7 +17,7 @@ public class ElMaper3 extends Mapper<LongWritable, Text, Text, FloatWritable> {
 
         Text key = new Text(paths);
 
-        FloatWritable values = new FloatWritable(Float.parseFloat(fields[3])); // monto
+        FloatWritable values = new FloatWritable(Float.parseFloat(fields[5])); // monto
 
         context.write(key, values);
     }
