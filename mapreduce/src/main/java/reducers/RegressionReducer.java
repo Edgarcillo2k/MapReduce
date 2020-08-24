@@ -24,9 +24,10 @@ public class RegressionReducer extends Reducer<Text, RegressionVariablesWrapper,
         }
 
         Double b = ((n* sumXY)-(sumX*sumY))/((n*sumX2)-(sumX*sumX));
+        Double a = (sumY-(b*sumX))/n;
         String bString = b.toString();
-
-        context.write(key, new Text(bString));
+        String aString = a.toString();
+        context.write(key, new Text(aString.concat("\t").concat(bString)));
 
     }
 }

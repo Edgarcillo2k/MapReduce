@@ -24,7 +24,7 @@ public class StartJobMain extends Configured implements Tool {
 		args[3] = "mappers.ElMaper";
 		args[4] = "reducers.ElReducer";
 		args[5] = "org.apache.hadoop.io.FloatWritable";
-		res = ToolRunner.run(new StartJobMain(), args);
+		int res = ToolRunner.run(new StartJobMain(), args);
 
 		args[0] = "Suma de pasajeros por año y mes por ruta"; 				//LISTO  (2)
 		args[1] = "/user/hive/warehouse/viajesdomesticoscr.db/reservaciones";
@@ -76,7 +76,7 @@ public class StartJobMain extends Configured implements Tool {
 		args[1] = "/user/hive/warehouse/viajesdomesticoscr.db/sumaPasajerosAnioMesRuta";
 		args[2] = "/user/hive/warehouse/viajesdomesticoscr.db/regresionPasajerosAnioMesRuta";
 		args[3] = "mappers.RegressionMapper";
-		args[4] = "reducers.RegressionReducer";
+		args[4] = "reducers.RegressionReducerInc";
 		args[5] = "models.RegressionVariablesWrapper";
 		res = ToolRunner.run(new StartJobMain(), args);
 
@@ -84,13 +84,13 @@ public class StartJobMain extends Configured implements Tool {
 		args[1] = "/user/hive/warehouse/viajesdomesticoscr.db/sumaMontosAnioMesRuta";
 		args[2] = "/user/hive/warehouse/viajesdomesticoscr.db/regresionMontosAnioMesRuta";
 		args[3] = "mappers.RegressionMapper";
-		args[4] = "reducers.RegressionReducer";
+		args[4] = "reducers.RegressionReducerInc";
 		args[5] = "models.RegressionVariablesWrapper";
 		res = ToolRunner.run(new StartJobMain(), args);
 
 		args[0] = "Regresion Inc. Pasajeros por dia y anio";									//REVISAR ARGS[1] (9)
 		args[1] = "/user/hive/warehouse/viajesdomesticoscr.db/sumaPasajerosAnioMesDiaRuta";
-		args[2] = "/user/hive/warehouse/viajesdomesticoscr.db/regresionIncPasajerosAnioMesDiaRuta";
+		args[2] = "/user/hive/warehouse/viajesdomesticoscr.db/regresionPasajerosAnioMesDiaRuta";
 		args[3] = "mappers.RegressionMapper";
 		args[4] = "reducers.RegressionReducer";
 		args[5] = "models.RegressionVariablesWrapper";
@@ -99,7 +99,7 @@ public class StartJobMain extends Configured implements Tool {
 
 		args[0] = "Regresion Inc. Montos por dia y anio";									//REVISAR ARGS[1] (10)
 		args[1] = "/user/hive/warehouse/viajesdomesticoscr.db/sumaMontosAnioMesDiaRuta";
-		args[2] = "/user/hive/warehouse/viajesdomesticoscr.db/regresionIncMontosAnioMesDiaRuta";
+		args[2] = "/user/hive/warehouse/viajesdomesticoscr.db/regresionMontosAnioMesDiaRuta";
 		args[3] = "mappers.RegressionMapper";
 		args[4] = "reducers.RegressionReducer";
 		args[5] = "models.RegressionVariablesWrapper";
