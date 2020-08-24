@@ -9,6 +9,7 @@ import java.io.IOException;
 public class RegressionReducer extends Reducer<Text, RegressionVariablesWrapper, Text, Text> {
     @Override
     public void reduce(Text key, Iterable<RegressionVariablesWrapper> values, Context context) throws IOException, InterruptedException {
+
         double sumY = 0;
         double sumX = 0;
         double sumXY = 0;
@@ -21,8 +22,10 @@ public class RegressionReducer extends Reducer<Text, RegressionVariablesWrapper,
             sumXY += value.getX() * value.getY();
             n++;
         }
+
         Double b = ((n* sumXY)-(sumX*sumY))/((n*sumX2)-(sumX*sumX));
         String bString = b.toString();
+
         context.write(key, new Text(bString));
 
     }

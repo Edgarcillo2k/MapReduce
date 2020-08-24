@@ -13,7 +13,7 @@ public class ElMaper3 extends Mapper<LongWritable, Text, Text, FloatWritable> {
 
         String fields[] = lineText.toString().split("\t"); //Input: Origen + Destino + Anio + Mes + Dia
 
-        String paths = fields[0].concat("\t").concat(fields[1].concat("\t").concat(fields[2]).concat("\t").concat(fields[3])); //Result:  origen + destino + anio + mes
+        String paths = fields[0].concat("\t").concat(fields[1].concat("\t").concat(fields[2]).concat("\t").concat(fields[3])); //Result:  Origen + Destino + Anio + Mes
 
         Text key = new Text(paths);
 
