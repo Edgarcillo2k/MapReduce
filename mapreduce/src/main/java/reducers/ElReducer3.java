@@ -11,14 +11,14 @@ public class ElReducer3 extends Reducer<Text, FloatWritable, Text, FloatWritable
     @Override
     public void reduce(Text key, Iterable<FloatWritable> values, Context context) throws IOException, InterruptedException {
 
-        double sumValues = 0;
+        float sumValues = 0;
         float promedio = 0;
-        double init, end = 0, n = 0;
+        float init, end = 0, n = 0;
 
         for(FloatWritable value : values) {
             init = value.get();
             if(n>0){
-                double crecimiento = end / init;
+                float crecimiento = end / init;
                 System.out.print(crecimiento);
                 sumValues += crecimiento;
             }
@@ -28,7 +28,7 @@ public class ElReducer3 extends Reducer<Text, FloatWritable, Text, FloatWritable
         n--;
         System.out.print(sumValues);
         System.out.print(n);
-        promedio = (float) (sumValues / n);
+        promedio = sumValues / n;
         context.write(key, new FloatWritable(promedio));
     }
 }
