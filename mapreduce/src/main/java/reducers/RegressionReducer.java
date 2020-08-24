@@ -9,7 +9,8 @@ import java.io.IOException;
 public class RegressionReducer extends Reducer<Text, RegressionVariablesWrapper, Text, Text> {
     @Override
     public void reduce(Text key, Iterable<RegressionVariablesWrapper> values, Context context) throws IOException, InterruptedException {
-        float end,x;
+        Double end = 0.0;
+        Double init = 0.0;
 
         double sumY = 0;
         double sumX = 0;
@@ -21,17 +22,16 @@ public class RegressionReducer extends Reducer<Text, RegressionVariablesWrapper,
         double n = 0;
 
         for(RegressionVariablesWrapper value : values) {
-            x = value.getX();
-            float y;
+            init = value.getY();
             if(n > 0){
-                y = end / x;
-                sumX += x;
-                sumY += value.getY();
-                sumX2 +=Math.pow(x,2);
-                sumX3 += Math.pow(x,3);
-                sumX4 += Math.pow(x,4);
-                sumXY += x * y;
-                sumX2Y += Math.pow(x,2) * y;
+                double y = end / init;
+                sumX += value.getX();
+                sumY += y;
+                sumX2 += Math.pow(value.getX(),2);
+                sumX3 += Math.pow(value.getX(),3);
+                sumX4 += Math.pow(value.getX(),4);
+                sumXY += value.getX() * y;
+                sumX2Y += Math.pow(value.getX(),2) * y;
             }
             end = value.getX();
             n++;
@@ -46,13 +46,13 @@ public class RegressionReducer extends Reducer<Text, RegressionVariablesWrapper,
         Double c = (  (sumX2 - ((sumX*sumX)/n)) * (sumX2Y - ((sumX2*sumY)/n)) - (sumX3 - ((sumX2*sumX)/n)) * (sumXY - ((sumX*sumY)/n)) )  /
                 ( (sumX2 - ((sumX*sumX)/n)) * (sumX4 - ((sumX2*sumX2)/n)) - Math.pow((sumX3 - ((sumX2*sumX)/n)),2) );
 
-        Doable a = (sumY - b * sumX - c * sumX2) / n;
+        Double a = (sumY - b * sumX - c * sumX2) / n;
 
-        String bString = b.toString();//y = b + 2cx
+        String bString = b.toString();//y = a + bx + cx^2
         String cString = c.toString();
         String aString = a.toString();
 
-        context.write(key, new Text( aString.concat("\t").bString.concat("\t").concat(cString)));
+        context.write(key, new Text( aString.concat("\t").concat(bString).concat("\t").concat(cString)));
 
     }
 }

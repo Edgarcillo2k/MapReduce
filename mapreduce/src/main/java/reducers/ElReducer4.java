@@ -21,21 +21,13 @@ public class ElReducer4 extends Reducer<Text, RegressionVariablesWrapper, Text, 
         double n = 0;
 
         for(RegressionVariablesWrapper value : values) {
-
-            float y,x;
-
-            x = value.getX();
-            y = value.getY();
-
-            sumX += x;
+            sumX += value.getX();
             sumY += value.getY();
-            sumX2 +=Math.pow(x,2);
-            sumX3 += Math.pow(x,3);
-            sumX4 += Math.pow(x,4);
-            sumXY += x * y;
-            sumX2Y += Math.pow(x,2) * y;
-
-
+            sumX2 +=Math.pow(value.getX(),2);
+            sumX3 += Math.pow(value.getX(),3);
+            sumX4 += Math.pow(value.getX(),4);
+            sumXY += value.getX() * value.getY();
+            sumX2Y += Math.pow(value.getX(),2) * value.getY();
             n++;
         }
 
@@ -44,13 +36,13 @@ public class ElReducer4 extends Reducer<Text, RegressionVariablesWrapper, Text, 
         Double c = (  (sumX2 - ((sumX*sumX)/n)) * (sumX2Y - ((sumX2*sumY)/n)) - (sumX3 - ((sumX2*sumX)/n)) * (sumXY - ((sumX*sumY)/n)) )  /
                 ( (sumX2 - ((sumX*sumX)/n)) * (sumX4 - ((sumX2*sumX2)/n)) - Math.pow((sumX3 - ((sumX2*sumX)/n)),2) );
 
-        Doable a = (sumY - b * sumX - c * sumX2) / n;
+        Double a = (sumY - b * sumX - c * sumX2) / n;
 
-        String bString = b.toString();//y = b + 2cx
+        String bString = b.toString();//y = a + bx + cx^2
         String cString = c.toString();
         String aString = a.toString();
 
-        context.write(key, new Text( aString.concat("\t").bString.concat("\t").concat(cString)));
+        context.write(key, new Text( aString.concat("\t").concat(bString).concat("\t").concat(cString)));
 
     }
 }

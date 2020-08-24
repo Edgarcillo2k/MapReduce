@@ -1,5 +1,6 @@
 package mappers;
 
+import models.RegressionVariablesWrapper;
 import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -7,7 +8,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 
-public class ElMaper3 extends Mapper<LongWritable, Text, Text, RegressionVariablesWrapper> {
+public class ElMaper4 extends Mapper<LongWritable, Text, Text, RegressionVariablesWrapper> {
 
     public void map(LongWritable offset, Text lineText, Context context) throws IOException, InterruptedException {
 
