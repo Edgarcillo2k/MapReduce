@@ -32,20 +32,7 @@ public class Simulation {
             throwables.printStackTrace();
         }
         try {
-            stmt.execute("CREATE TABLE Demanda(" +
-                    "origen string," +
-                    "destino string," +
-                    "mes int," +
-                    "demanda float" +
-                    ")" +
-                    "ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';" +
-                    "INSERT OVERWRITE TABLE Demanda(origen,destino,mes,demanda)" +
-                    "select compras.origen,compras.destino,compras.mes,(compras.cantidad*compras.cantidad)/(busquedas.cantidad*300)" +
-                    "from ComprasXrutaXmes compras" +
-                    "inner join busquedasXrutaXmes busquedas" +
-                    "on (compras.origen = busquedas.origen and compras.destino = busquedas.destino and compras.mes = busquedas.mes)" +
-                    "group by compras.origen,compras.destino,compras.mes" +
-                    "order by compras.origen,compras.destino,compras.mes");
+            stmt.execute("CREATE DATABASES ViajesDomesticosCR;");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
